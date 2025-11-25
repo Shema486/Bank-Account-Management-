@@ -6,15 +6,15 @@ public abstract class Account {
     private double balance;
     private String status;
 
-    //static field - for generating unique account number
-    public static int accountCounter;
+    // Static field for generating unique account IDs (e.g., ACC001)
+    public static int accountCounter=0;
 
     //constructor
-    public Account( double balance, Customer customer) {
+    public Account( double initialBalance, Customer customer) {
         accountCounter++;
-        this.accountNumber = "ACC" + String.format("%03d",accountCounter);//ACC001 --ACC002
+        this.accountNumber =String.format("ACC%03d",accountCounter);//ACC001 --ACC002
         this.status = "ACTIVE";
-        this.balance = balance;
+        this.balance = initialBalance;
         this.customer = customer;
     }
 
