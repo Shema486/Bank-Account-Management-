@@ -13,7 +13,9 @@ public class CheckingAccount extends Account{
 
     //override methods from Account
     @Override
-    public void displayAccountDetails() {}
+    public void displayAccountDetails() {
+
+    }
     @Override
     public String getAccountType() {return "checking";}
     @Override
