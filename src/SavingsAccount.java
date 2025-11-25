@@ -15,10 +15,17 @@ public class SavingsAccount extends Account{
     @Override
     //to show Account information + interest details
     public void displayAccountDetails() {
+        System.out.println(
+                 "ACC NO: " + getAccountNumber() + " | CUSTOMER NAME: " + getCustomer().getName()
+                + " | TYPE: " + getAccountType() + " | BALANCE: " + getFormattedBalance()
+                + " | STATUS: " + getStatus());
+        System.out.println("    | Interest Rate: " + (interestRate * 100) + "% | Min Balance: $" + String.format("%,.2f", minimumBalance));
 
     }
     @Override
-    public String getAccountType() {return "Savings";}
+    public String getAccountType() {
+        return "Savings";
+    }
     @Override
     public double withdraw(double amount) {return 0;}
 
