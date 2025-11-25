@@ -1,23 +1,29 @@
+// US-1: SavingsAccount
 public class SavingsAccount extends Account{
 
-    //private field;
-    private double interestRate;
-    private double minimumBalance;
+    // Private fields specific to Savings accounts
+    private final double interestRate = 0.035; // 3.5% annually
+    private final double minimumBalance = 500.00; // $500 minimum
 
     //Constructor to invoke fields in parent class
-    public SavingsAccount(String accountNumber, String status, double balance, Customer customer,double interestRate,double minimumBalance) {
-        super(accountNumber, status, balance, customer);
-        this.minimumBalance = 500;
-        this.interestRate = 3.5;
+    public SavingsAccount(Customer customer, double initialDeposit) {
+        super(initialDeposit, customer);
+
     }
 
     //override methods from Account
     @Override
-    public void displayAccountDetails() {}
+    //to show Account information + interest details
+    public void displayAccountDetails() {
+
+    }
     @Override
-    public String getAccountType() {return "";}
+    public String getAccountType() {return "Savings";}
     @Override
     public double withdraw(double amount) {return 0;}
 
-    public double calculateInterest(){return 0;}
+    // Additional method
+    public double calculateInterest() {
+        return this.getBalance() * interestRate;
+    }
 }
