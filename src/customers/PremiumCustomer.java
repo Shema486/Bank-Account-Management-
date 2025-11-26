@@ -1,4 +1,6 @@
-public class PremiumCustomer extends Customer{
+package customers;
+
+public class PremiumCustomer extends Customer {
 
     // Private field specific to Premium customers
     private final double minimumBalance = 10000; // Minimum to maintain premium status
@@ -9,13 +11,13 @@ public class PremiumCustomer extends Customer{
 
     @Override
     public void displayCustomerDetails() {
-        System.out.println("Customer ID: " + getCustomerId());
-        System.out.println("Name: " + getName());
-        System.out.println("Age: " + getAge());
-        System.out.println("Contact: " + getContact());
-        System.out.println("Type: " + getCustomerType() + " (Priority Service)");
+        System.out.println(STR."Customer ID: \{getCustomerId()}");
+        System.out.println(STR."Name: \{getName()}");
+        System.out.println(STR."Age: \{getAge()}");
+        System.out.println(STR."Contact: \{getContact()}");
+        System.out.println(STR."Type: \{getCustomerType()} (Priority Service)");
         System.out.println("Benefit: Monthly fees waived.");
-        System.out.println("Min Balance Requirement: $" + String.format("%,.2f", minimumBalance));
+        System.out.println(STR."Min Balance Requirement: $\{String.format("%,.2f", minimumBalance)}");
     }
 
     // Override the abstract method to specify the type

@@ -1,11 +1,16 @@
+package accounts;
+
+import customers.Customer;
+import processTransaction.Transactable;
+
 import java.text.DecimalFormat;
 
-public abstract class Account {
+public abstract class Account implements Transactable {
 
     // Private fields (Encapsulation)
     private String accountNumber;
     private Customer customer;
-    private double balance;
+    protected double balance;
     private String status;
 
     // Static field for generating unique account IDs (e.g., ACC001)
@@ -35,11 +40,23 @@ public abstract class Account {
     public  abstract String getAccountType();
 
     //Normal Method
-    public double deposit(double amount) {return 0;}
-    public double withdraw(double amount) {return 0;}
+    public boolean deposit(double amount) {
+        if (amount <= 0) {
+            System.out.println("Deposit amount must be positive.");
+            return false;
+        }
+
+        this.balance += amount;
+        System.out.println(STR."Deposited: $\{df.format(amount)}");
+        return true;
+    }
+
+    public abstract double withdraw(double amount);
 
     // Helper method for formatted balance display
     public String getFormattedBalance() {
-        return "$" + df.format(balance);
+        return STR."$\{df.format(balance)}";
     }
+
+
 }

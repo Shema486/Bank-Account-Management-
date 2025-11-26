@@ -1,3 +1,5 @@
+package customers;
+
 public abstract class Customer {
     // Static field for generating unique customer IDs (e.g., CUS001)
     public static int customerCounter=0;
@@ -20,8 +22,8 @@ public abstract class Customer {
     }
 
     // Abstract methods for polymorphism
-     public abstract void displayCustomerDetails();
-     public abstract  String getCustomerType();
+    public abstract void displayCustomerDetails();
+    public abstract  String getCustomerType();
 
     // Getters and Setters
     public String getAddress() {return address;}
@@ -30,3 +32,4 @@ public abstract class Customer {
     public int getAge() {return age;}
     public String getCustomerId() {return customerId;}
 }
+

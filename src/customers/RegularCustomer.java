@@ -1,4 +1,6 @@
-public class RegularCustomer extends Customer{
+package customers;
+
+public class RegularCustomer extends Customer {
 
     // Constructor (simply calls the abstract class constructor)
     public RegularCustomer(String contact, String name, int age, String address) {

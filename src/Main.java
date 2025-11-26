@@ -50,19 +50,63 @@ public class Main {
 
         System.out.println("\n--- CREATE NEW ACCOUNT ---");
         System.out.print("Enter Customer Name: ");
+        int choice = 0;
         String name = scanner.next();
 
-        System.out.print("Enter ege: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
-
         System.out.print("Enter Customer Contact: ");
-        String contact = scanner.nextLine();
+        String contact = scanner.next();
 
         System.out.print("Enter Customer Address: ");
-        String address = scanner.nextLine();
+        String address = scanner.next();
 
-        System.out.printf("You names are %s and you are %d years old\n",name,age);
-        System.out.printf("You phone number is %s and you are have address %s ",contact,address);
+        System.out.print("Enter age: ");
+        int age = scanner.nextInt();
+
+        System.out.println("\nCustomer type: ");
+        System.out.println("1. Regular Customer (standard banking services)");
+        System.out.println("2. Premium Customer (Enhanced benefits, min balance $10,000)\n");
+
+
+        do {
+            System.out.print("select type (1-2):");
+            choice = scanner.nextInt();
+
+            while (choice <1 || choice>2){
+                System.out.println("Enter right choice 1/2");
+                System.out.print("select type: (1-2)");
+                choice = scanner.nextInt();
+            }
+
+            switch (choice) {
+                case 1->{
+                    System.out.println("\nAccount type: ");
+                    System.out.println("1.Saving Account(interest:3.5%, Min Balance:$500)");
+                    System.out.println("2.Checking Account(overdraft:$1000, Monthly fee:$10)\n");
+
+                    System.out.print("\nselect type (1-2): ");
+                    choice = scanner.nextInt();
+                    if (choice ==1)
+                        System.out.print("Enter amount to deposit: ");
+                    scanner.nextLine();
+
+                }
+                case 2-> {
+                    System.out.println("Account type: \n");
+                    System.out.println("1.Saving Account(interest:3.5%, Min Balance:$500)");
+                    System.out.println("2.Checking Account(overdraft:$1000, Monthly fee:$10)\n");
+
+                    System.out.print("select type (1-2):");
+                    choice = scanner.nextInt();
+                    if (choice ==2)
+                        System.out.print("Enter amount to deposit: ");
+                    scanner.nextLine();
+
+                 }
+
+            }
+        }while (true);
+
+
+
     }
 }
