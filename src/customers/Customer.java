@@ -12,7 +12,7 @@ public abstract class Customer {
     private String address;
 
     //constructor
-    public Customer(String contact, String name, int age, String address) {
+    public Customer(String name, int age, String contact, String address) {
         customerCounter++;
         this.customerId =String.format("CUS%03d",customerCounter) ;
         this.contact = contact;
@@ -25,11 +25,19 @@ public abstract class Customer {
     public abstract void displayCustomerDetails();
     public abstract  String getCustomerType();
 
-    // Getters and Setters
+    // Getters
     public String getAddress() {return address;}
     public String getContact() {return contact;}
     public String getName() {return name;}
     public int getAge() {return age;}
     public String getCustomerId() {return customerId;}
+
+    //Setter
+
+    public void setAddress(String address) {this.address = address;}
+    public void setContact(String contact) {this.contact = contact;}
+    public void setName(String name) {this.name = name;}
+    public void setAge(int age) {this.age = age;}
+    public void setCustomerId(String customerId) {this.customerId = customerId;}
 }
 
