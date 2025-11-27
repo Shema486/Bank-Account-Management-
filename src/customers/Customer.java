@@ -32,12 +32,5 @@ public abstract class Customer {
     public int getAge() {return age;}
     public String getCustomerId() {return customerId;}
 
-    //Setter
-
-    public void setAddress(String address) {this.address = address;}
-    public void setContact(String contact) {this.contact = contact;}
-    public void setName(String name) {this.name = name;}
-    public void setAge(int age) {this.age = age;}
-    public void setCustomerId(String customerId) {this.customerId = customerId;}
 }
 
