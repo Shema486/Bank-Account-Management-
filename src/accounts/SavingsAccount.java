@@ -2,40 +2,47 @@ package accounts;
 
 
 import customers.Customer;
-
+import customers.PremiumCustomer;
 // US-1: SavingsAccount
 public class SavingsAccount extends Account{
 
-    // Private fields specific to Savings accounts
-    private final double interestRate = 0.035; // 3.5% annually
-    private final double minimumBalance = 500.00; // $500 minimum
+    private double interestRate;
+    private double minimunBalance;
 
-    //Constructor to invoke fields in parent class
-    public SavingsAccount(Customer customer, double initialDeposit) {
-        super(initialDeposit, customer);
-
+    public SavingsAccount(Customer customer, double balance) {
+        super(customer, balance);
+        this.minimunBalance=500;
+        this.interestRate=3.5;
     }
 
-    //override methods from Account
     @Override
-    //to show Account information + interest details
     public void displayAccountDetails() {
-
+        System.out.println("ACC NO: "+getAccountNumber());
+        System.out.println("CUSTOMER NAME: "+getCustomer().getName());
+        System.out.println("TYPE: " +getAccountType());
+        System.out.println("BALANCE: " +getBalance());
+        System.out.println("STATUS: " + getStatus());
+        System.out.printf("Minimum Balance: " +minimunBalance);
+        System.out.println("Interest annually: "+calculateInterestEarned());
     }
     @Override
     public String getAccountType() {
-        return "Savings";
-    }
+        return "Saving";}
     @Override
-    public double withdraw(double amount) {return 0;}
-
-    // Additional method
-    public double calculateInterest() {
-        return this.balance * interestRate;
+    public void withdraw(double amount) {
+        // Check if withdrawal stays above minimum balance
+        if (balance - amount >= minimunBalance) {
+            balance -= amount;
+            System.out.println("SavingAccount: Withdrew $" + amount +
+                    ". New balance: $" + balance);
+        } else {
+            System.out.println("Withdrawal denied! Minimum balance of $" +
+                    minimunBalance + " must be maintained.");
+        }
     }
 
-    @Override
-    public boolean processTransaction(double amount, String type) {
-        return false;
+
+    public double calculateInterestEarned(){
+        return this.balance * interestRate/100;
     }
 }
