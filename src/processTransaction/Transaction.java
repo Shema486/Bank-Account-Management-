@@ -7,7 +7,6 @@ import java.text.DecimalFormat;
 public class Transaction {
     // Static field for generating unique transaction IDs (e.g., TXN001)
     private static int transactionCounter = 0;
-    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     // Fields
     private String transactionId;
@@ -37,7 +36,10 @@ public class Transaction {
 
     // Method to display details (US-4 requirement)
     public void displayTransactionDetails() {
-
+        String sign = type.equalsIgnoreCase("DEPOSIT") ? "+" : "-";
+        System.out.printf("| %-7s | %-19s | %-12s | %-10s | %s%.2f | %s%.2f |\n",
+                transactionId, timestamp, accountNumber, type,
+                sign, amount, "", balanceAfter);
     }
 
     // Getters
