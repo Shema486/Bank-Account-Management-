@@ -1,39 +1,43 @@
 package customers;
 
 public class PremiumCustomer extends Customer {
+    // Private field specific to Premium customers [cite: 378]
+    private  double minimumBalance ; // Minimum to maintain premium status
 
-    // Private field specific to Premium customers
-    private final double minimumBalance = 10000; // Minimum to maintain premium status
-
-    public PremiumCustomer(String contact, String name, int age, String address) {
-        super(contact, name, age, address);
+    // Constructor [cite: 378]
+    public PremiumCustomer(String name, int age, String contact, String address) {
+        super(name, age, contact, address);
+        this.minimumBalance = 10000;
     }
 
-    @Override
-    public void displayCustomerDetails() {
-        System.out.println(STR."Customer ID: \{getCustomerId()}");
-        System.out.println(STR."Name: \{getName()}");
-        System.out.println(STR."Age: \{getAge()}");
-        System.out.println(STR."Contact: \{getContact()}");
-        System.out.println(STR."Type: \{getCustomerType()} (Priority Service)");
-        System.out.println("Benefit: Monthly fees waived.");
-        System.out.println(STR."Min Balance Requirement: $\{String.format("%,.2f", minimumBalance)}");
-    }
-
-    // Override the abstract method to specify the type
-    @Override
-    public String getCustomerType() {
-        return "Premium";
-    }
-
-    // Special method for benefits (waived fees)
+    // Special method for benefits (waived fees) [cite: 381]
     public boolean hasWaivedFees() {
         // Premium customers always have waived monthly fees
         return true;
     }
 
-    // Getter for minimumBalance
+    // Override the abstract method to specify the type [cite: 380]
+    @Override
+    public String getCustomerType() {
+        return "Premium";
+    }
+
+    // Override to show customer info plus premium benefits [cite: 380]
+    @Override
+    public void displayCustomerDetails() {
+        System.out.println("Customer ID: " + getCustomerId());
+        System.out.println("Name: " + getName());
+        System.out.println("Age: " + getAge());
+        System.out.println("Contact: " + getContact());
+        System.out.println("Type: " + getCustomerType() + " (Priority Service)");
+        System.out.println("CustomerType :"+getCustomerType());
+        System.out.println("Benefit: Monthly fees waived.");
+        System.out.println("Min Balance Requirement: $" + String.format("%,.2f", getMinimumBalance()));
+    }
+
+    // Getter for minimumBalance [cite: 379]
     public double getMinimumBalance() {
         return minimumBalance;
     }
+
 }
