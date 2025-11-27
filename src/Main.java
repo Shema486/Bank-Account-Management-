@@ -1,112 +1,286 @@
+import accounts.Account;
+import accounts.CheckingAccount;
+import accounts.SavingsAccount;
+import customers.Customer;
+import customers.PremiumCustomer;
+import customers.RegularCustomer;
+import processTransaction.AccountManager;
+import processTransaction.Transaction;
+import transactionHistory.TransactionManager;
+
+
+import java.sql.SQLOutput;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    private static Scanner scanner =new Scanner(System.in);
-    public static void main(String[] args){
+    static Scanner scanner = new Scanner(System.in);
+     static AccountManager accountManager = new AccountManager();
+    static TransactionManager transactionManager = new TransactionManager();
 
-        int choice =0;
+    public static void main(String[] args) {
+        // 1. Initialize data for testing (US-1 and US-4 requirement)
+        initializeData();
 
-
-        do{
+        // 2. Main menu loop (US-5)
+        int choice = 0;
+        do {
             displayMenu();
-            System.out.print("Enter choice (1-5): ");
-            choice = scanner.nextInt();
-
-            while(choice <1 || choice >5){
-                System.out.println("Enter valid choice: ");
-                System.out.print("Enter choice (1-5): ");
+            try {
+                System.out.print("Enter your choice (1-5): ");
                 choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+
+                switch (choice) {
+                    case 1:
+                        // US-2: Create Account
+                        handleCreateAccount();
+                        break;
+                    case 2:
+                        // US-1: View All Accounts
+                        accountManager.viewAllAccounts();
+                        accountManager.getTotalBalance();
+                        break;
+                    case 3:
+                        // US-3: Process Transaction
+                        handleProcessTransaction();
+                        break;
+                    case 4:
+                        // US-4: View Transaction History
+                        handleViewHistory();
+                        break;
+                    case 5:
+                        System.out.println("\nThank you for using the Bank Account Management System. Goodbye!");
+                        break;
+                    default:
+                        // Input Validation (US-5 Acceptance Criteria)
+                        System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+                }
+            } catch (InputMismatchException e) {
+                // Input Validation for non-integer inputs (US-5 Acceptance Criteria)
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine(); // Clear the invalid input
+                choice = 0;
             }
-            switch (choice){
-                case 1 -> createAccount();
-                case 2 -> System.out.println("View All Accounts");
-                case 3 -> System.out.println("Process Transaction");
-                case 4 -> System.out.println("View Transaction History");
-                case 5 -> System.out.println("\nThank you for using the Bank Account Management System. Goodbye!");
-                default -> System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+        } while (choice != 5);
 
-            }
-
-        }while(true);
-
+        scanner.close();
     }
 
     // --- Helper Methods ---
+
     private static void displayMenu() {
-        System.out.println("\n=============================================");
-        System.out.println("||                                          ||");
-        System.out.println("||    BANK ACCOUNT MANAGEMENT SYSTEM MENU   ||");
-        System.out.println("||                                          ||");
-        System.out.println("=============================================");
-        System.out.println("1. Create New Account ");
-        System.out.println("2. View All Accounts ");
-        System.out.println("3. Process Transaction ");
-        System.out.println("4. View Transaction History ");
+        System.out.println("\n================================================");
+        System.out.println("||     BANK ACCOUNT MANAGEMENT SYSTEM MENU    ||");
+        System.out.println("================================================");
+        System.out.println("1. Create New Account (US-2)");
+        System.out.println("2. View All Accounts (US-1)");
+        System.out.println("3. Process Transaction (US-3)");
+        System.out.println("4. View Transaction History (US-4)");
         System.out.println("5. Exit");
         System.out.println("=============================================");
     }
-    private static void initializeDate(){}
-    private static void createAccount(){
 
-        System.out.println("\n--- CREATE NEW ACCOUNT ---");
-        System.out.print("Enter Customer Name: ");
-        int choice = 0;
-        String name = scanner.next();
+    // Helper to create initial accounts and transactions for testing
+    private static void initializeData() {
+        Customer c1 = new RegularCustomer("Alice",64,"555-555","111-RWANDA");
+        Customer c2 = new RegularCustomer("SHEMA",54,"544-335","122-BURUNDI");
+        Customer c3 = new RegularCustomer("Bruce",24,"522-522","333-CAMERON");
+        Customer c4 = new PremiumCustomer("Ange",30,"115-511","334-CANADA");
+        Customer c5 = new PremiumCustomer("Peace",54,"235-445","443-USA");
 
-        System.out.print("Enter Customer Contact: ");
-        String contact = scanner.next();
+        Account acc1 = new SavingsAccount(c1,5000);
+        Account acc2 = new SavingsAccount(c2,2000);
+        Account acc3 = new SavingsAccount(c3,1000);
+        Account acc4 = new CheckingAccount(c4,10000);
+        Account acc5 = new CheckingAccount(c5,8000);
 
-        System.out.print("Enter Customer Address: ");
-        String address = scanner.next();
+        accountManager.addAccount(acc1);
+        accountManager.addAccount(acc2);
+        accountManager.addAccount(acc3);
+        accountManager.addAccount(acc4);
+        accountManager.addAccount(acc5);
+        // Create initial Transactions (US-4 initial data)
+        acc1.deposit(500.00); // Balance 2000
+        transactionManager.addTransaction(new Transaction(acc1.getAccountNumber(), "DEPOSIT", 500.00, acc1.getBalance()));
 
-        System.out.print("Enter age: ");
-        int age = scanner.nextInt();
+        System.out.println("--- Initial Test Data Loaded Successfully ---");
+    }
 
-        System.out.println("\nCustomer type: ");
-        System.out.println("1. Regular Customer (standard banking services)");
-        System.out.println("2. Premium Customer (Enhanced benefits, min balance $10,000)\n");
+    // Logic for Menu Option 1 (US-2)
+    private static void handleCreateAccount() {
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
+        System.out.println("CREATE NEW ACCOUNT");
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗\n");
+        System.out.print("ENTER CUSTOMER NAME: ");
+        String name = scanner.nextLine();
 
+//        System.out.print("ENTER AGE: ");
+        int age = getIntInput("Enter Customer Age: ");
+        if (age == -1) return;
 
-        do {
-            System.out.print("select type (1-2):");
-            choice = scanner.nextInt();
+        System.out.print("ENTER CONTACT: ");
+        String contact = scanner.nextLine();
 
-            while (choice <1 || choice>2){
-                System.out.println("Enter right choice 1/2");
-                System.out.print("select type: (1-2)");
-                choice = scanner.nextInt();
+        System.out.print("ENTER ADDRESS: ");
+        String address = scanner.nextLine();
+
+        System.out.println("\n-------CUSTOMER TYPE:-----");
+        System.out.println("1.Regular Customer (Standard banking service) ");
+        System.out.println("2.Premium Customer (Enhanced benefits, min balance) ");
+//        System.out.print("select type (1-2): ");
+        int customerType = getIntInput(" select type (1-2): ");
+        scanner.nextLine();
+
+        Customer customer;
+        if (customerType ==1){
+            customer = new RegularCustomer(name,age,contact,address);
+        }else {
+            customer =new PremiumCustomer(name,age,contact,address);
+        }
+        System.out.println("\nACCOUNT TYPE:\n");
+        System.out.println("1. Saving Account (Interest:3.5%, Min Balance: $500)");
+        System.out.println("2. Checking Account (Overdraft: $1000, Monthly fee: $10)");
+//        System.out.print("\nselect type (1-2): ");
+        int accountType = getIntInput(" Enter 1 or 2: ");
+
+        System.out.print("Enter initial deposit amount: $");
+        double amountDeposited = scanner.nextDouble();
+
+        Account account;
+        if (accountType == 1){
+            account = new SavingsAccount(customer,amountDeposited);
+        }
+        else {
+            account = new CheckingAccount(customer,amountDeposited);
+        }
+        accountManager.addAccount(account);
+        account.displayAccountDetails();
+        System.out.println("\n ✅ CREATION OF YOUR ACCOUNT IS SUCCESSFULLY COMPLETE");
+        enterToContinue();
+    }
+
+    // Logic for Menu Option 3 (US-3)
+    private static void handleProcessTransaction() {
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
+        System.out.println("PROCESS TRANSACTION");
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗\n");
+
+        System.out.print("Enter Account number (e.g, ACC001)");
+        String accNumber = scanner.nextLine();
+
+        //to get that account from AccountManager (array)
+        Account account =accountManager.findAccount(accNumber);
+        if (account ==null){
+            System.out.println("Account does not exist");
+            enterToContinue();
+            return;
+        }
+        System.out.println("Account details......... ");
+        System.out.println("Customer name: " + account.getCustomer().getName());
+        System.out.println("Account type: "+ account.getAccountType());
+        System.out.println("Current Balance: $" + account.getBalance());
+
+        System.out.println("\nTransaction type:");
+        System.out.println("1.Deposit");
+        System.out.println("2.withdraw");
+//        System.out.print("select type (1-2): ");
+        int type = getIntInput(" Enter 1 or 2: ");
+        String  transactionType = type==1 ? "DEPOSIT" : "WITHDRAW";
+
+        System.out.print("Enter amount for transaction:" );
+        double amountForTransaction = scanner.nextDouble();
+        scanner.nextLine();
+        double initialBalance = account.getBalance();
+        double balanceAfter = type ==1 ? initialBalance+amountForTransaction : initialBalance-amountForTransaction;
+
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
+        System.out.println("Transaction conformation");
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗\n");
+
+        Transaction transaction = new Transaction(accNumber,transactionType,amountForTransaction,balanceAfter);
+        System.out.println("Transaction ID:" +transaction.getTransactionId());
+        System.out.println("AccountNumber:" + transaction.getAccountNumber());
+        System.out.println("Amount: " +transaction.getAmount());
+        System.out.println("Previous balance: " +initialBalance);
+        System.out.println("New balance: " + transaction.getBalanceAfter());
+        System.out.println("Date/time: " + transaction.getTimestamp());
+
+        System.out.println("\nConfirm transaction? (Y/N): ");
+        String confirm = scanner.nextLine();
+
+        if (confirm.equalsIgnoreCase("y")){
+            boolean accept = account.processTransaction(amountForTransaction,transactionType);
+            System.out.println(accept);
+            if (accept){
+                transactionManager.addTransaction(transaction);
+                System.out.println("\n ===========Transaction completed successfully============");
+            }else {
+                System.out.println("Transaction failed. try again");
             }
+        }
+        else {
+            System.out.println("\nTransaction denied");
+        }
+        enterToContinue();
+    }
 
-            switch (choice) {
-                case 1->{
-                    System.out.println("\nAccount type: ");
-                    System.out.println("1.Saving Account(interest:3.5%, Min Balance:$500)");
-                    System.out.println("2.Checking Account(overdraft:$1000, Monthly fee:$10)\n");
+    // Logic for Menu Option 4 (US-4)
+    private static void handleViewHistory() {
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
+        System.out.println("View transaction history");
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗\n");
 
-                    System.out.print("\nselect type (1-2): ");
-                    choice = scanner.nextInt();
-                    if (choice ==1)
-                        System.out.print("Enter amount to deposit: ");
-                    scanner.nextLine();
+        System.out.print("Enter Account (e.g,ACC001): ");
+        String accNum = scanner.nextLine();
 
-                }
-                case 2-> {
-                    System.out.println("Account type: \n");
-                    System.out.println("1.Saving Account(interest:3.5%, Min Balance:$500)");
-                    System.out.println("2.Checking Account(overdraft:$1000, Monthly fee:$10)\n");
+        Account account = accountManager.findAccount(accNum);
+        if(account==null){
+            System.out.println("\nAccount not found");
+           enterToContinue();
+           return;
+        }
+        System.out.println("\nAccount: "+accNum+"-"+ account.getCustomer().getName());
+        System.out.println("Account type: " + account.getAccountNumber());
+        System.out.println("Current balance: " + account.getBalance());
+        System.out.println("TXN ID | DATE/TIME |  TYPE  |  AMOUNT  |  BALANCE");
+        transactionManager.viewTransactionsByAccount(accNum);
+        System.out.println("\nTotal transaction: "+ transactionManager.getTransactionCount());
+        System.out.println("Total Deposit: " + transactionManager.calculateTotalDeposit(accNum));
+        System.out.println("Total withdraw: " + transactionManager.calculateTotalWithdraw(accNum));
+    }
 
-                    System.out.print("select type (1-2):");
-                    choice = scanner.nextInt();
-                    if (choice ==2)
-                        System.out.print("Enter amount to deposit: ");
-                    scanner.nextLine();
-
-                 }
-
+     //helper line
+    private  static void enterToContinue(){
+     System.out.println("\npress enter to continue...\n");
+     scanner.nextLine();
+  }
+    // --- Generic Input Validation Helpers ---
+    private static int getIntInput(String prompt) {
+        // Overloaded helper for a prompt and error message
+        while (true) {
+            try {
+                System.out.print(prompt);
+                int input = scanner.nextInt();
+                scanner.nextLine();
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a whole number.");
+                scanner.nextLine();
             }
-        }while (true);
+        }
+    }
 
-
-
+    private static double getDoubleInput() {
+        while (true) {
+            try {
+                double input = scanner.nextDouble();
+                scanner.nextLine();
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a numeric value.");
+                scanner.nextLine();
+            }
+        }
     }
 }
