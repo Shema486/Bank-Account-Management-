@@ -1,61 +1,67 @@
 package accounts;
-
 import customers.Customer;
 import processTransaction.Transactable;
 
-import java.text.DecimalFormat;
 
 public abstract class Account implements Transactable {
+    // Static field for generating unique account IDs (e.g., ACC001)
+    private static int accountCounter = 0;
 
     // Private fields (Encapsulation)
     private String accountNumber;
-    private Customer customer;
-    protected double balance;
+    private Customer customer; // Composition: Account HAS-A Customer
+    protected double balance; // Protected so subclasses can access/modify directly for withdraw
     private String status;
 
-    // Static field for generating unique account IDs (e.g., ACC001)
-    public static int accountCounter=0;
-
-    // Formatting for currency output
-    private static final DecimalFormat df = new DecimalFormat("0.00");
-
-    //constructor
-    public Account( double initialBalance, Customer customer) {
-        // Auto-generate unique ID
+    // Constructor
+    public Account(Customer customer, double initialBalance) {
         accountCounter++;
-        this.accountNumber =String.format("ACC%03d",accountCounter);//ACC001 --ACC002
-        this.status = "ACTIVE";
+        this.accountNumber = String.format("ACC%03d",accountCounter);
+        this.customer = customer;
         this.balance = initialBalance;
-        this.customer = customer;// All new accounts are active
+        this.status = "ACTIVE";
     }
 
-    //  Getter for Readable
-    public String getAccountNumber() {return accountNumber;}
+    //Getter
     public String getStatus() {return status;}
     public double getBalance() {return balance;}
     public Customer getCustomer() {return customer;}
+    public String getAccountNumber() {return accountNumber;}
 
-    //Abstract methods for polymorphism (must be implemented by subclasses)
+    //Abstract method
     public abstract void displayAccountDetails();
-    public  abstract String getAccountType();
+    public abstract String getAccountType();
 
-    //Normal Method
-    public boolean deposit(double amount) {
-        if (amount <= 0) {
-            System.out.println("Deposit amount must be positive.");
-            return false;
+    //Methods of deposit and withdraw
+    public  void deposit(double amount){
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited $" + amount + ". New balance: $" + balance);
+        } else {
+            System.out.println("Deposit amount must be positive!");
+        }
+    };
+    public   void withdraw(double amount){
+        if (amount > 0 && balance - amount >= 0) {  // For simple account
+            balance -= amount;
+            System.out.println("Withdrew $" + amount + ". New balance: $" + balance);
+        } else {
+            System.out.println("Withdrawal failed! Not enough balance.");
         }
 
-        this.balance += amount;
-        System.out.println(STR."Deposited: $\{df.format(amount)}");
-        return true;
-    }
+    };
+    @Override
+    public boolean processTransaction (double amount, String type){
+        if (type.equalsIgnoreCase("DEPOSIT")){
+            deposit(amount);
+            return true;
+        }
+        else if (type.equalsIgnoreCase("WITHDRAW")){
+            withdraw(amount);
+            return true;
+        }
+        return false;
 
-    public abstract double withdraw(double amount);
-
-    // Helper method for formatted balance display
-    public String getFormattedBalance() {
-        return STR."$\{df.format(balance)}";
     }
 
 
