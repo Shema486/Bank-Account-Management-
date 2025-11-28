@@ -1,6 +1,7 @@
 package accounts;
 
 import customers.Customer;
+import customers.PremiumCustomer;
 
 public class CheckingAccount extends Account{
 
@@ -16,14 +17,23 @@ public class CheckingAccount extends Account{
     //Menu after creating checkingAccount
     @Override
     public void displayAccountDetails() {
-        System.out.println("ACC NO: "+getAccountNumber());
-        System.out.println("CUSTOMER NAME: "+getCustomer().getName());
-        System.out.println("TYPE: "+getStatus());
-        System.out.print("BALANCE: "+getBalance());
-        System.out.println("STATUS: "+getStatus());
-        System.out.printf("OVERDRAFT LIMIT: $%,.2f" , overdraftLimit);
-        System.out.printf("Monthly fee $%,.2f",monthlyFee);
-        System.out.println("\n"+appyMonthlyFee());
+            double fee = this.monthlyFee;
+            String feeDetails = "Monthly Fee: $" + String.format("%,.2f", fee);
+
+            // Check for premium status to waive fee
+            if (getCustomer() instanceof PremiumCustomer) {
+                PremiumCustomer pc = (PremiumCustomer) getCustomer();
+                if (pc.hasWaivedFees()) {
+                    fee = 0.00;
+                    feeDetails = "Monthly Fee: $0.00 (WAIVED - Premium Customer)";
+                }
+            }
+            System.out.println("ACC NO: " + getAccountNumber() + " | CUSTOMER NAME: " + getCustomer().getName()
+                    + " | TYPE: " + getAccountType() + " | BALANCE: " + getBalance()
+                    + " | STATUS: " + getStatus());
+            System.out.println("    | Overdraft Limit: $" + String.format("%,.2f", overdraftLimit) + " | " + feeDetails);
+            System.out.println("    |fee applied :" +appyMonthlyFee());
+
     }
     //return type of account
     @Override
@@ -41,6 +51,6 @@ public class CheckingAccount extends Account{
 
     public String appyMonthlyFee(){
         balance -= monthlyFee;
-        return "Monthly fee of $10 applied. New balance: $" + balance;
+        return "New balance after fee: $" + balance;
     }
 }
