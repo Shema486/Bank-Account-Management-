@@ -166,8 +166,8 @@ public class Main {
         System.out.println("PROCESS TRANSACTION");
         System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗\n");
 
-        System.out.print("Enter Account number (e.g, ACC001)");
-        String accNumber = getStringInput("Enter Account number (e.g, ACC001)");
+//        System.out.print("Enter Account number (e.g, ACC001)");
+        String accNumber = getStringInput("Enter Account number (e.g, ACC001): ");
 
         //to get that account from AccountManager (array)
         Account account =accountManager.findAccount(accNumber);
@@ -189,7 +189,7 @@ public class Main {
         String  transactionType = type==1 ? "DEPOSIT" : "WITHDRAW";
 
 //        System.out.print("Enter amount for transaction:" );
-        double amountForTransaction = getDoubleInput("Enter amount for transaction:",500);
+        double amountForTransaction = getDoubleInput("Enter amount for transaction: ",500);
         scanner.nextLine();
         double initialBalance = account.getBalance();
         double balanceAfter = type ==1 ? initialBalance+amountForTransaction : initialBalance-amountForTransaction;

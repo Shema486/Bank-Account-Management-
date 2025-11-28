@@ -36,7 +36,7 @@ public abstract class Account implements Transactable {
     public  void deposit(double amount){
         if (amount > 0) {
             balance += amount;
-            System.out.println("Deposited $" + amount + ". New balance: $" + balance);
+//            System.out.println("Deposited $" + amount + ". New balance: $" + balance);
         } else {
             System.out.println("Deposit amount must be positive!");
         }
