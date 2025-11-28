@@ -52,10 +52,10 @@ public class AccountManager {
 
         System.out.println("----- All Bank Accounts -----");
         for (int i = 0; i < accountCount; i++) {
-            System.out.println("Account #" + (i + 1));
             accounts[i].displayAccountDetails();
-            System.out.println("----------------------------");
         }
+        System.out.println("Total account: "+getAccountCount());
+        System.out.println("Total Bank balance: $"+getTotalBalance());
     }
 
     // Getter
