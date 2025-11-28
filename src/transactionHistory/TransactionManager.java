@@ -19,7 +19,7 @@ public class TransactionManager {
             // Note: Since we are using an array, we are adding to the end (newest transaction)
             transactions[transactionCount] = newTransaction;
             transactionCount++;
-            System.out.println("Transaction added successfully!");
+//            System.out.println("Transaction added successfully!");
         } else {
             System.out.println("Transaction log full! Cannot add more transactions.");        }
     }
