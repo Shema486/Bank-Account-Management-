@@ -102,6 +102,8 @@ public class Main {
         accountManager.addAccount(acc5);
         // Create initial Transactions (US-4 initial data)
         acc1.deposit(500.00); // Balance 2000
+        acc1.deposit(500.00); // Balance 2000
+        acc1.deposit(500.00); // Balance 2000
         transactionManager.addTransaction(new Transaction(acc1.getAccountNumber(), "DEPOSIT", 500.00, acc1.getBalance()));
 
         System.out.println("--- Initial Test Data Loaded Successfully ---");
@@ -189,8 +191,7 @@ public class Main {
         String  transactionType = type==1 ? "DEPOSIT" : "WITHDRAW";
 
 //        System.out.print("Enter amount for transaction:" );
-        double amountForTransaction = getDoubleInput("Enter amount for transaction: ",500);
-        scanner.nextLine();
+        double amountForTransaction = getDoubleInput("Enter amount for transaction: $",500);
         double initialBalance = account.getBalance();
         double balanceAfter = type ==1 ? initialBalance+amountForTransaction : initialBalance-amountForTransaction;
 
@@ -211,7 +212,6 @@ public class Main {
 
         if (confirm.equalsIgnoreCase("y")){
             boolean accept = account.processTransaction(amountForTransaction,transactionType);
-            System.out.println(accept);
             if (accept){
                 transactionManager.addTransaction(transaction);
                 System.out.println("\n ===========Transaction completed successfully============");

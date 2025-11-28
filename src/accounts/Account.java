@@ -33,23 +33,8 @@ public abstract class Account implements Transactable {
     public abstract String getAccountType();
 
     //Methods of deposit and withdraw
-    public  void deposit(double amount){
-        if (amount > 0) {
-            balance += amount;
-//            System.out.println("Deposited $" + amount + ". New balance: $" + balance);
-        } else {
-            System.out.println("Deposit amount must be positive!");
-        }
-    };
-    public   void withdraw(double amount){
-        if (amount > 0 && balance - amount >= 0) {  // For simple account
-            balance -= amount;
-            System.out.println("Withdrew $" + amount + ". New balance: $" + balance);
-        } else {
-            System.out.println("Withdrawal failed! Not enough balance.");
-        }
-
-    };
+    public abstract void deposit(double amount);
+    public   abstract void withdraw(double amount);
     @Override
     public boolean processTransaction (double amount, String type){
         if (type.equalsIgnoreCase("DEPOSIT")){
@@ -66,3 +51,23 @@ public abstract class Account implements Transactable {
 
 
 }
+/*
+deposit
+{
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited $" + amount + ". New balance: $" + balance);
+        } else {
+            System.out.println("Deposit amount must be positive!");
+        }
+    }
+withdraw
+{
+        if (amount > 0 && balance - amount >= 0) {  // For simple account
+            balance -= amount;
+            System.out.println("Withdrew $" + amount + ". New balance: $" + balance);
+        } else {
+            System.out.println("Withdrawal failed! Not enough balance.");
+        }
+
+    }*/

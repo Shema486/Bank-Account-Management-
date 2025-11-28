@@ -38,6 +38,16 @@ public class CheckingAccount extends Account{
     //return type of account
     @Override
     public String getAccountType() {return "Checking";}
+
+    @Override
+    public void  deposit(double amount) {
+        if (amount > 0) {
+             balance += amount;
+        } else {
+            System.out.println("Deposit amount must be positive!");
+        }
+    }
+
     @Override
     public void withdraw(double amount) {
         // Check if withdrawal stays within overdraft limit

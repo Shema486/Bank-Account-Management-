@@ -26,6 +26,16 @@ public class SavingsAccount extends Account{
     @Override
     public String getAccountType() {
         return "Saving";}
+
+    @Override
+    public void deposit(double amount) {
+            if (amount < 0) {
+                balance += amount;
+            } else {
+                System.out.println("Deposit amount must be positive!");
+            }
+    }
+
     @Override
     public void withdraw(double amount) {
         // Check if withdrawal stays above minimum balance
