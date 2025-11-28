@@ -7,22 +7,20 @@ import customers.PremiumCustomer;
 public class SavingsAccount extends Account{
 
     private double interestRate;
-    private double minimunBalance;
+    private double minimumBalance;
 
     public SavingsAccount(Customer customer, double balance) {
         super(customer, balance);
-        this.minimunBalance=500;
+        this.minimumBalance=500;
         this.interestRate=3.5;
     }
 
     @Override
     public void displayAccountDetails() {
-        System.out.println("ACC NO: "+getAccountNumber());
-        System.out.println("CUSTOMER NAME: "+getCustomer().getName());
-        System.out.println("TYPE: " +getAccountType());
-        System.out.println("BALANCE: " +getBalance());
-        System.out.println("STATUS: " + getStatus());
-        System.out.printf("Minimum Balance: " +minimunBalance);
+        System.out.println("ACC NO: " + getAccountNumber() + " | CUSTOMER NAME: " + getCustomer().getName()
+                + " | TYPE: " + getAccountType() + " | BALANCE: " + getBalance()
+                + " | STATUS: " + getStatus());
+        System.out.println("    | Interest Rate: " + (interestRate)+"%" + "% | Min Balance: $" + minimumBalance);
         System.out.println("Interest annually: "+calculateInterestEarned());
     }
     @Override
@@ -31,13 +29,13 @@ public class SavingsAccount extends Account{
     @Override
     public void withdraw(double amount) {
         // Check if withdrawal stays above minimum balance
-        if (balance - amount >= minimunBalance) {
+        if (balance - amount >= minimumBalance) {
             balance -= amount;
             System.out.println("SavingAccount: Withdrew $" + amount +
                     ". New balance: $" + balance);
         } else {
             System.out.println("Withdrawal denied! Minimum balance of $" +
-                    minimunBalance + " must be maintained.");
+                    minimumBalance + " must be maintained.");
         }
     }
 
