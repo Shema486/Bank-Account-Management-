@@ -51,6 +51,6 @@ public class SavingsAccount extends Account{
 
 
     public double calculateInterestEarned(){
-        return this.balance * interestRate/100;
+        return this.balance * (interestRate/100);
     }
 }
