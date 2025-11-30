@@ -101,9 +101,9 @@ public class Main {
         accountManager.addAccount(acc4);
         accountManager.addAccount(acc5);
         // Create initial Transactions (US-4 initial data)
-        acc1.deposit(500.00); // Balance 2000
-        acc1.deposit(500.00); // Balance 2000
-        acc1.deposit(500.00); // Balance 2000
+        acc1.deposit(3000.00); // Balance 2000
+        acc1.deposit(1000.00); // Balance 2000
+        acc1.deposit(5000.00); // Balance 2000
         transactionManager.addTransaction(new Transaction(acc1.getAccountNumber(), "DEPOSIT", 500.00, acc1.getBalance()));
 
         System.out.println("--- Initial Test Data Loaded Successfully ---");

@@ -29,7 +29,7 @@ public class SavingsAccount extends Account{
 
     @Override
     public void deposit(double amount) {
-            if (amount < 0) {
+            if (amount > 0) {
                 balance += amount;
             } else {
                 System.out.println("Deposit amount must be positive!");
