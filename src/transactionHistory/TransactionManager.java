@@ -60,7 +60,7 @@ public class TransactionManager {
         System.out.println("------------------------------------------------------------------------------------");
         // Display Summary (US-4 Acceptance Criteria)
         double totalDeposits = calculateTotal(accountNumber, "DEPOSIT");
-        double totalWithdrawals = calculateTotal(accountNumber, "WITHDRAWAL");
+        double totalWithdrawals = calculateTotal(accountNumber, "WITHDRAW");
         double netChange = totalDeposits - totalWithdrawals;
         System.out.printf("SUMMARY: Total Deposits: $%,.2f | Total Withdrawals: $%,.2f | Net Change: %s$%,.2f\n",
                 totalDeposits, totalWithdrawals, (netChange >= 0 ? "+" : "-"), netChange);
